@@ -2,32 +2,28 @@
 def merge(arrA, arrB):
     elements = len(arrA) + len(arrB)
     merged_arr = [0] * elements
-    # Needs index counts for all three arrays(a, b, c)
-    # Loop til indexes for both a and b are more than the length
+    # Needs counts for arrA and arrB
+    # For loop holds merged_arr count
+    # Loop til counts for both a and b are equal to the length
     # of their respective list
-    # index count for merged_arr will increment every time
+    # count for merged_arr will increment  w/ for loop
     # other two will increment when value is smaller
 
     a = 0
     b = 0
-    c = 0
-    while a < len(arrA) and b < len(arrB):
-        if arrA[a] < arrB[b]:
+    for c in range(elements):
+        if a == len(arrA):
+            merged_arr[c] = arrB[b]
+            b += 1
+        elif b == len(arrB):
             merged_arr[c] = arrA[a]
             a += 1
-            c += 1
+        elif arrA[a] < arrB[b]:
+            merged_arr[c] = arrA[a]
+            a += 1
         else:
             merged_arr[c] = arrB[b]
-            c += 1
             b += 1
-    while a < len(arrA):
-        merged_arr[c] = arrA[a]
-        a += 1
-        c += 1
-    while b < len(arrB):
-        merged_arr[c] = arrB[b]
-        c += 1
-        b += 1
 
     return merged_arr
 
@@ -57,10 +53,46 @@ def merge_sort(arr):
 
 
 def merge_in_place(arr, start, mid, end):
-    # Your code here
-    pass
+    start2 = mid + 1
+
+    # If the direct merge is already sorted
+    if (arr[mid] <= arr[start2]):
+        return
+
+    # Two pointers to maintain start
+    # of both arrays to merge
+    while (start <= mid and start2 <= end):
+
+        # If element 1 is in right place
+        if (arr[start] <= arr[start2]):
+            start += 1
+        else:
+            value = arr[start2]
+            index = start2
+
+            # Shift all the elements between element 1
+            # element 2, right by 1.
+            while (index != start):
+                arr[index] = arr[index - 1]
+                index -= 1
+
+            arr[start] = value
+
+            # Update all the pointers
+            start += 1
+            mid += 1
+            start2 += 1
 
 
 def merge_sort_in_place(arr, l, r):
-    # Your code here
-    pass
+    if (l < r):
+
+        # Same as (l + r) / 2, but avoids overflow
+        # for large l and r
+        m = l + (r - l) // 2
+
+        # Sort first and second halves
+        merge_sort_in_place(arr, l, m)
+        merge_sort_in_place(arr, m + 1, r)
+
+        merge_in_place(arr, l, m, r)

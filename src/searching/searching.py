@@ -10,9 +10,11 @@ def binary_search(arr, target, start, end):
         if arr[middle] == target:
             return middle
         elif arr[middle] > target:
-            return binary_search(arr, target, start, (middle - 1))
+            end = middle - 1
+            return binary_search(arr, target, start, end)
         else:
-            return binary_search(arr, target, (middle + 1), end)
+            start = middle + 1
+            return binary_search(arr, target, start, end)
     else:
         return -1
 
